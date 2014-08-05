@@ -15,7 +15,8 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
-    injector: 'grunt-asset-injector'
+    injector: 'grunt-asset-injector',
+    preprocess: 'grunt-preprocess'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
     },
     express: {
       options: {
-        port: process.env.PORT || 9000
+        port: process.env.PORT || 9001
       },
       dev: {
         options: {
@@ -102,7 +103,7 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
-          livereload: true
+          livereload: 35728
         }
       },
       express: {
@@ -111,7 +112,7 @@ module.exports = function (grunt) {
         ],
         tasks: ['express:dev', 'wait'],
         options: {
-          livereload: true,
+          livereload: 35728,
           nospawn: true //Without this option specified express won't be reloaded
         }
       }
@@ -156,6 +157,26 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      website_dev: {
+        options: {
+          force: true
+        },
+        files: [{
+          src: [
+            '<%= yeoman.website_dev %>/*'
+          ]
+        }]
+      },
+      website_prod: {
+        options: {
+          force: true
+        },
+        files: [{
+          src: [
+            '<%= yeoman.website_prod %>/*'
+          ]
+        }]
+      },
       server: '.tmp'
     },
 
@@ -190,7 +211,7 @@ module.exports = function (grunt) {
         options: {
           nodeArgs: ['--debug-brk'],
           env: {
-            PORT: process.env.PORT || 9000
+            PORT: process.env.PORT || 9001
           },
           callback: function (nodemon) {
             nodemon.on('log', function (event) {
@@ -365,7 +386,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>/public',
-          dest: '<%= yeoman.website-dev %>',
+          dest: '<%= yeoman.website_dev %>',
           src: '**/*'
         }]
       },
@@ -373,7 +394,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>/public',
-          dest: '<%= yeoman.website-prod %>',
+          dest: '<%= yeoman.website_prod %>',
           src: '**/*'
         }]
       },
@@ -526,6 +547,12 @@ module.exports = function (grunt) {
         }
       }
     },
+    preprocess: {
+      html : {
+        src : '<%= yeoman.client %>/index.preprocessed.html',
+        dest : '<%= yeoman.client %>/index.html'
+      }
+    }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -565,6 +592,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
+      'preprocess',
       'injector:sass', 
       'concurrent:server',
       'injector',
@@ -626,6 +654,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'env:prod',
+    'preprocess',
     'injector:sass', 
     'concurrent:dist',
     'injector',
@@ -644,10 +674,12 @@ module.exports = function (grunt) {
   ]);
   
   grunt.registerTask('copydev', [
+    'clean:website_dev',
     'copy:website_dev'
   ]);
   
   grunt.registerTask('copyprod', [
+    'clean:website_prod',
     'copy:website_prod'
   ]);
 

@@ -12,6 +12,6 @@ angular.module('xoApp', [
       .otherwise({
         redirectTo: '/'
       });
-
+      
     $locationProvider.html5Mode(true);
   });
