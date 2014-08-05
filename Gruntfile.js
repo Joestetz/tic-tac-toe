@@ -1,6 +1,12 @@
 'use strict';
 
 module.exports = function (grunt) {
+  var localConfig;
+  try {
+    localConfig = require('./server/config/local.env');
+  } catch(e) {
+    localConfig = {};
+  }
 
   // Load grunt tasks automatically, when needed
   require('jit-grunt')(grunt, {
@@ -22,7 +28,9 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       client: require('./bower.json').appPath || 'client',
-      dist: 'dist'
+      dist: 'dist',
+      website_dev: '../website/client/showcase/xo',
+      website_prod: '../website/dist/public/showcase/xo'
     },
     express: {
       options: {
@@ -277,7 +285,7 @@ module.exports = function (grunt) {
 
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
-    ngmin: {
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -353,6 +361,22 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      website_dev: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/public',
+          dest: '<%= yeoman.website-dev %>',
+          src: '**/*'
+        }]
+      },
+      website_prod: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/public',
+          dest: '<%= yeoman.website-prod %>',
+          src: '**/*'
+        }]
+      },
       styles: {
         expand: true,
         cwd: '<%= yeoman.client %>',
@@ -420,7 +444,7 @@ module.exports = function (grunt) {
       prod: {
         NODE_ENV: 'production'
       },
-      all: require('./server/config/local.env')
+      all: localConfig
     },
 
     // Compiles Sass to CSS
@@ -513,7 +537,7 @@ module.exports = function (grunt) {
     setTimeout(function () {
       grunt.log.writeln('Done waiting!');
       done();
-    }, 500);
+    }, 1500);
   });
 
   grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
@@ -522,7 +546,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
+      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'open', 'express-keepalive']);
     }
 
     if (target === 'debug') {
@@ -610,13 +634,21 @@ module.exports = function (grunt) {
     'autoprefixer',
     'ngtemplates',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'cdnify',
     'cssmin',
     'uglify',
     'rev',
     'usemin'
+  ]);
+  
+  grunt.registerTask('copydev', [
+    'copy:website_dev'
+  ]);
+  
+  grunt.registerTask('copyprod', [
+    'copy:website_prod'
   ]);
 
   grunt.registerTask('default', [
