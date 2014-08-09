@@ -7,8 +7,8 @@ angular.module('xoApp')
       'link': './'
     },
     {
-      'title': 'Test',
-      'link': './test'
+      'title': 'Play',
+      'link': './play'
     }];
 
     $scope.isCollapsed = true;
