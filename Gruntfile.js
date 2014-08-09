@@ -16,7 +16,7 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
-    preprocess: 'grunt-preprocess'
+    replace: 'grunt-text-replace'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -547,10 +547,14 @@ module.exports = function (grunt) {
         }
       }
     },
-    preprocess: {
-      html : {
-        src : '<%= yeoman.client %>/index.preprocessed.html',
-        dest : '<%= yeoman.client %>/index.html'
+    replace: {
+      basehref: {
+        src: '<%= yeoman.dist %>/public/index.html',
+        overwrite: true,
+        replacements: [{
+          from: '<base href="/">',
+          to: '<base href="/showcase/xo/">'
+        }]
       }
     }
   });
@@ -592,7 +596,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
-      'preprocess',
       'injector:sass', 
       'concurrent:server',
       'injector',
@@ -655,7 +658,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'env:prod',
-    'preprocess',
     'injector:sass', 
     'concurrent:dist',
     'injector',
@@ -670,7 +672,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'replace:basehref'
   ]);
   
   grunt.registerTask('copydev', [
