@@ -1,9 +1,22 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div id="play">
-  <div class="container1">
-    <div class="col-md-12">
-      This is the play view.
+  <div id="gameboard">
+    <form class="controls form-inline" role="form">
+      <button class="btn btn-default btn-lg" ng-click="newGame()">New Game</button>
+      <div class="form-group">
+        P1: <input type="text" class="form-control alert-info" ng-model="players[0].name" />
+      </div>
+      <div class="form-group">
+        P2: <input type="text" class="form-control alert-success" ng-model="players[1].name" />
+      </div>
+      <br/><br/>
+      <div ng-cloak class="alert" ng-class="{'alert-info': currentPlayer.point == 1, 'alert-success': currentPlayer.point == -1}">{{currentPlayer.name}}'s turn</div>
+    </form>
+    <div class="board">
+      <div class="board-row" ng-repeat="row in boardSizeArr track by $index">
+        <xo-cell ng-repeat="col in boardSizeArr track by $index" data-row="{{$parent.$index}}" data-col="{{$index}}"></xo-cell>
+      </div>
     </div>
-</div>
+  </div>
 </div>

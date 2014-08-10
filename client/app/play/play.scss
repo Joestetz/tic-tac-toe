@@ -1,0 +1,45 @@
+#gameboard {
+  position:absolute;
+  left: 50%;
+  height: 601px;
+  
+  .form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+  
+  .controls {
+    position: relative;
+    left: -50%;
+    text-align: center;
+    margin-bottom: 20px;
+    
+    button, input {
+      margin: 5px 10px
+    }
+  }
+  
+  .board {
+    position: relative;
+    left: -50%;
+    width: 601px;
+    height: 100%;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    
+    .board-row {
+      position: relative;
+      height: 33.3%;
+      clear: both;
+      border-bottom: 1px solid black;
+      
+      .board-cell {
+        float: left;
+        border-right: 1px solid black;
+        height: 200px;
+        width: 200px;
+      }
+    }
+  }
+}

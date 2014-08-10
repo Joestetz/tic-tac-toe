@@ -1,7 +1,7 @@
 /* global io */
 'use strict';
 
-angular.module('websiteApp')
+angular.module('xoApp')
   .factory('socket', function(socketFactory) {
     var retryInterval = 5000;
     var retryTimer;
