@@ -1,13 +1,17 @@
 #play {
-  overflow: hidden;
-  /*position: absolute;*/
+  position: relative;
   width: 100%;
   min-height: 750px;
 
   #gameboard {
-    position:absolute;
-    left: 50%;
     height: 601px;
+    width: 600px;
+    margin: auto;
+    
+    .alert {
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
     
     .form-inline .form-control {
       display: inline-block;
@@ -16,10 +20,8 @@
     }
     
     .controls {
-      position: relative;
-      left: -50%;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       
       button, input {
         margin: 5px 10px
@@ -31,8 +33,6 @@
     }
     
     .board {
-      position: relative;
-      left: -50%;
       width: 601px;
       height: 100%;
       border-top: 1px solid black;
@@ -55,11 +55,12 @@
     }
   }
   
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: 639px) {
     min-height: 560px;
   
     #gameboard {
       height: 346px;
+      width: 346px;
       
       .controls {
         margin-bottom: 10px;
