@@ -11,19 +11,23 @@ angular.module('xoApp')
         scope.isDirty = false;
         
         // clear out game piece if new game is started
-        scope.$watch('$parent.moves.length', function (newVal, oldVal) {
-          if(newVal == 0) scope.gamepiece = 'blank';
+        scope.$watch('$parent.moves.length', function (newVal) {
+          if(newVal === 0) {
+            scope.gamepiece = 'blank';
+            scope.isDirty = false;
+          }
         });
         
         // place the player's game piece
         scope.place = function () {
+          // game is over
+          if (scope.$parent.gameOver) {
+            scope.throwError('The game has ended. No more moves allowed.', 'GC002');
+          }
+          
           // cannot overwrite game piece
           if (scope.isDirty) {
             scope.throwError('This cell has already been taken.', 'GC001');
-          }
-          
-          if (scope.$parent.gameOver) {
-            scope.throwError('The game has ended. No more moves allowed.', 'GC002');
           }
           
           // place the player's gamepiece and tell controller what was done
@@ -36,7 +40,7 @@ angular.module('xoApp')
         };
         
         scope.throwError = function (msg, code) {
-          var err = (code != undefined) ? 'Error Code ' + code + ' - ' + msg : msg;
+          var err = (code !== undefined) ? 'Error Code ' + code + ' - ' + msg : msg;
           scope.$parent.error.hasError = true;
           scope.$parent.error.message = msg;
           throw new Error(err);
