@@ -17,6 +17,7 @@ angular.module('xoApp')
     $scope.currentPlayer = $scope.players[0];
     $scope.moves = [];
     $scope.gameOver = false;
+    $scope.error = { hasError: false, message: "" };
     
     // winner is determined by any given array value of +boardSize or -boardSize
     $scope.scores = [];
@@ -60,6 +61,7 @@ angular.module('xoApp')
       }
       
       $scope.nextPlayer();
+      $scope.error.hasError = false;
     };
     
     // advance current player
@@ -82,5 +84,6 @@ angular.module('xoApp')
     // start a new game
     $scope.newGame = function () {
       $scope.moves.length = 0;
+      $scope.error.hasError = false;
     };
   });

@@ -19,11 +19,11 @@ angular.module('xoApp')
         scope.place = function () {
           // cannot overwrite game piece
           if (scope.isDirty) {
-            throw new Error('Error Code GC001 - This cell has already been taken.');
+            scope.throwError('This cell has already been taken.', 'GC001');
           }
           
           if (scope.$parent.gameOver) {
-            throw new Error('Error Code GC002 - The game has ended. No more moves allowed.');
+            scope.throwError('The game has ended. No more moves allowed.', 'GC002');
           }
           
           // place the player's gamepiece and tell controller what was done
@@ -33,6 +33,13 @@ angular.module('xoApp')
           };
           $timeout(exec, 10);
           scope.isDirty = true;
+        };
+        
+        scope.throwError = function (msg, code) {
+          var err = (code != undefined) ? 'Error Code ' + code + ' - ' + msg : msg;
+          scope.$parent.error.hasError = true;
+          scope.$parent.error.message = msg;
+          throw new Error(err);
         };
       }
     };
