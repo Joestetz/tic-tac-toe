@@ -13,6 +13,7 @@
     <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -55,6 +56,7 @@
       <script src="bower_components/angular-route/angular-route.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+      <script src="bower_components/toastr/toastr.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -65,6 +67,9 @@
           <script src="app/main/main.js"></script>
           <script src="app/play/play.controller.js"></script>
           <script src="app/play/play.js"></script>
+          <script src="app/services/playerFactory/playerFactory.service.js"></script>
+          <script src="app/services/scoreFactory/scoreFactory.service.js"></script>
+          <script src="app/services/xoNotify/xoNotify.service.js"></script>
           <script src="app/xoCell/xoCell.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="components/socket/socket.service.js"></script>

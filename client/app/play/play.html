@@ -11,7 +11,6 @@
         P2: <input type="text" class="form-control alert-success" ng-model="players[1].name" />
       </div>
       <div ng-cloak class="alert" ng-class="{'alert-info': currentPlayer.point == 1, 'alert-success': currentPlayer.point == -1}">{{currentPlayer.name}}'s turn</div>
-      <div ng-cloak ng-show="error.hasError" class="alert alert-danger">{{error.message}}</div>
     </form>
     <div class="board">
       <div class="board-row" ng-repeat="row in boardSizeArr track by $index">
