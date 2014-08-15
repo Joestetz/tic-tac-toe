@@ -54,9 +54,11 @@
       }
     }
   }
-  
-  @media screen and (max-width: 639px) {
-    min-height: 560px;
+}
+
+@media screen and (max-width: 639px), screen and (max-height:800px) {
+  #play {
+    min-height: 540px;
   
     #gameboard {
       height: 346px;
@@ -66,7 +68,8 @@
         margin-bottom: 10px;
         
         .form-group, .alert {
-          margin-bottom: 5px;
+          margin-bottom: 0px;
+          display: block;
         }
         
         .btn-lg {
@@ -86,5 +89,9 @@
         }
       }
     }
+  }
+  
+  .navbar {
+    margin-bottom: 5px;
   }
 }
