@@ -11,6 +11,8 @@ angular.module('xoApp')
       name: 'Player 2',
       piece: 'o'
     }];
+    
+    var currentPlayer = players[0];
 
     // Public API here
     return {
@@ -20,7 +22,7 @@ angular.module('xoApp')
       setPlayers: function(newPlayers) {
         players = newPlayers;
       },
-      nextPlayer: function(currentPlayer) {
+      nextPlayer: function() {
         var numPlayers = players.length;
         var playerPosition = jQuery.inArray(currentPlayer, players);
 
@@ -29,10 +31,18 @@ angular.module('xoApp')
         }
         
         if (playerPosition === numPlayers-1) {
-          return players[0];
+          currentPlayer = players[0];
+        } else {
+          currentPlayer = players[playerPosition+1];
         }
         
-        return players[playerPosition+1];
+        return currentPlayer;
+      },
+      getCurrentPlayer: function() {
+        return currentPlayer;
+      },
+      reset: function() {
+        currentPlayer = players[0];
       }
     };
   });

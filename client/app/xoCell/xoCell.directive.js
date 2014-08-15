@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('xoApp')
-  .directive('xoCell', function ($timeout, xoNotify) {
+  .directive('xoCell', function ($timeout, xoNotify, playerFactory) {
     return {
       templateUrl: 'app/xoCell/xoCell.html',
       restrict: 'E',
       scope: {},
-      link: function (scope, element, attrs) {
+      link: function (scope, element, attrs, ctrl) {
         scope.gamepiece = 'blank';
         scope.isDirty = false;
         
@@ -33,7 +33,7 @@ angular.module('xoApp')
           }
           
           // place the player's gamepiece and tell controller what was done
-          scope.gamepiece = scope.$parent.currentPlayer.piece;
+          scope.gamepiece = playerFactory.getCurrentPlayer().piece;
           scope.$parent.executeMove(attrs.row, attrs.col);
           scope.isDirty = true;
         };

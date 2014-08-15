@@ -5,10 +5,12 @@ angular.module('xoApp')
   .controller('PlayCtrl', function ($scope, playerFactory, scoreFactory, xoNotify, boardSize) {
     $scope.players = playerFactory.getPlayers();
     $scope.boardSizeArr = new Array(boardSize);
-    $scope.currentPlayer = $scope.players[0];
-    
     $scope.gameOver = false;
     $scope.moveCount = 0;
+    
+    $scope.$watch( playerFactory.getCurrentPlayer, function ( newVal ) {
+      $scope.currentPlayer = newVal;
+    });
     
     // do stuff when a move is executed (called from xoCell)
     $scope.executeMove = function(row, col) {
@@ -26,15 +28,15 @@ angular.module('xoApp')
         return;
       }
       
-      $scope.currentPlayer = playerFactory.nextPlayer($scope.currentPlayer);
+      playerFactory.nextPlayer();
     };
     
     // start a new game
     $scope.newGame = function () {
-      $scope.currentPlayer = $scope.players[0];
-      $scope.gameOver = false;
-      $scope.moveCount = 0;
+      playerFactory.reset();
       scoreFactory.reset();
       xoNotify.clear();
+      $scope.gameOver = false;
+      $scope.moveCount = 0;
     };
   });
